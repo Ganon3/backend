@@ -14,3 +14,10 @@ node_modules
 
 # .DS_Store is only for Mac users
 **/.DS_Store
+
+# because they said
+README.md
+pnpm-lock.yaml
+
+# for me
+ejs-tags.png
