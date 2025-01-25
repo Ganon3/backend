@@ -10,7 +10,8 @@
      --ff-paragraph: non;
 
      --font-size-h1: 35px;                      /* text or font sizes default */
-     --font-size-p: 16px;                       /* https://www.learnui.design/blog/mobile-desktop-website-font-size-guidelines.html */
+     --font-size-h2: 30px;                       /* https://www.learnui.design/blog/mobile-desktop-website-font-size-guidelines.html */
+     --font-size-p: 16px;                       
 
      --main-color: rgb(0, 120, 180);          /* colors */
      --second-color: non;
@@ -18,7 +19,11 @@
      --small-check-img: url("small_check.jpg");  /* images links */
 
      --wrapper-max-with: 1000px;
+     --body-min-width: 650px;
+     --cell-view-width: 777px;
      --wrapper-background-color: white;
+     
+
 
 }
 
@@ -28,6 +33,7 @@
 *:before,
 *:after {box-sizing: border-box;}
 * h1 {font-size: var(--font-size-h1);}
+* h2 {font-size: var(--font-size-h2);}
 * p  {font-size: var(--font-size-p);}
 * li {font-size: var(--font-size-p);}
 * button {font-size: var(--font-size-p);}
@@ -55,7 +61,7 @@ nav ul {
  */
  body {
   background-image: var(--small-check-img);
-  min-width: 650px;
+  min-width: var(--body-min-width);
   }
  #wrapper {
   border: 5px solid var(--main-color);
@@ -119,7 +125,7 @@ margin-top: -35px; }
   grid-column: 2/3;
   }
 
-  #right h1{margin-left: -20px;}
+  #right h2{margin-left: -20px;}
   #right li {padding: 15px;} 
 
   #upgrades {
@@ -128,7 +134,7 @@ margin-top: -35px; }
     row-gap: 20px;
     column-gap: 20px;}
   #upgrades div {text-align: center;}
-  #upgrades h1 {grid-column: 1/3;}
+  #upgrades h2 {grid-column: 1/3;}
 
   .upgradesImages {
     border: 1px solid black;
@@ -145,7 +151,7 @@ footer {
   margin-left: 20px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 777px) {
   #section1 {display: block;}
   #right {
     margin-left: 0px;
