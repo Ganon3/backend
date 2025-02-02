@@ -23,8 +23,6 @@
      --cell-view-width: 777px;
      --wrapper-background-color: white;
      
-
-
 }
 
 /*******   Change Box Model & Set Defaults 
@@ -44,7 +42,7 @@
 .siteName { font-size: 45px !important;}       /*   font-size: 45px   */
 #tools {float: right;}
 #tools {text-decoration: none;}
-nav ul {
+#theeNav {
   background-color: black;
   color: white;
   display: flex;
@@ -52,6 +50,13 @@ nav ul {
   justify-content: space-around;
   list-style: none;
   padding: 5px;
+}
+
+/******* footer ********/
+
+footer {
+  margin-top: 50px;
+  margin-left: 20px;
 }
 
 /******* main *******/
@@ -144,12 +149,18 @@ margin-top: -35px; }
     height: 95px;
 }
 
-
-/******* footer ********/
-footer {
-  margin-top: 50px;
-  margin-left: 20px;
+/** 
+ * THIS IS FOR THE INVENTORY DISPLAY
+ */
+ #inv-display {
+    border: solid 3px black;
+  }
+  #inv-display hr {
+    padding: 5px;
+    border: solid black 5px;
+    background-color: black;
 }
+
 
 @media only screen and (max-width: 777px) {
   #section1 {display: block;}
