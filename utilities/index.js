@@ -1,3 +1,4 @@
+const { json } = require("express")
 const invModel = require("../models/inventory-model")
 const Util = {}
 
@@ -7,7 +8,7 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul id='theeNav'>"
-  list += '<li><a href="/" title="Home page">Home</a></li>'
+  list += '<li class="theeLi"><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
     list += "<li>"
     list +=
@@ -57,6 +58,31 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+Util.buildVehicleDetailPage = async function (data) {
+  // return `<p> ${data.inv_id} ${data.inv_make} ${data.inv_model} 
+  // ${data.inv_year} ${data.inv_description} ${data.inv_image} 
+  // ${data.inv_price} ${data.inv_miles} ${data.inv_color}</p>`
+
+  return `
+            <section id="discription_section">
+
+                <div id="discription_left">
+                    <img src="${data.inv_image}">
+                </div>
+
+                <div id="discription_right">
+                    <h2> ${data.inv_make} ${data.inv_model} description</h2>
+                    <p> Price: ${data.inv_price} </p>
+                    <p> Description: ${data.inv_description} </p>
+                    <p> Color: ${data.inv_color}</p>
+                    <p> Miles: ${data.inv_miles}</p>
+                </div>
+            </section>
+          
+         `
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

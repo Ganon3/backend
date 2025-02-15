@@ -1,20 +1,21 @@
 /* imports */
-
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 /**
  This should be where a good portion of things can be change
  */
 :root{
 
-     --ff-headers: non;                         /* ff is for font family */
-     --ff-paragraph: non;
+     --ff-headers: "Bruno Ace SC", serif;                         /* ff is for font family */
+     --ff-paragraph: "Nunito Sans", serif;
 
      --font-size-h1: 35px;                      /* text or font sizes default */
      --font-size-h2: 30px;                       /* https://www.learnui.design/blog/mobile-desktop-website-font-size-guidelines.html */
-     --font-size-p: 16px;                       
+     --font-size-p: 16px;  
+     --font-size-p-alt: 18px;                     
 
      --main-color: rgb(0, 120, 180);          /* colors */
-     --second-color: non;
+     --second-color: rgb(242, 254, 252);
 
      --small-check-img: url("small_check.jpg");  /* images links */
 
@@ -30,26 +31,36 @@
 *,
 *:before,
 *:after {box-sizing: border-box;}
-* h1 {font-size: var(--font-size-h1);}
-* h2 {font-size: var(--font-size-h2);}
-* p  {font-size: var(--font-size-p);}
-* li {font-size: var(--font-size-p);}
-* button {font-size: var(--font-size-p);}
+* h1 {font-size: var(--font-size-h1); font-family: var(--ff-headers);}
+* h2 {font-size: var(--font-size-h2); font-family: var(--ff-paragraph);}
+* p  {font-size: var(--font-size-p);  font-family: var(--ff-paragraph);}
+* li {font-size: var(--font-size-p);  font-family: var(--ff-paragraph);}
+* button {font-size: var(--font-size-p); font-family: var(--ff-paragraph);}
 
 
 /****** header ******/
 
 .siteName { font-size: 45px !important;}       /*   font-size: 45px   */
 #tools {float: right;}
-#tools {text-decoration: none;}
+#tools {
+  text-decoration: none;
+}
 #theeNav {
   background-color: black;
-  color: white;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
   list-style: none;
+  padding: 10px;
+}
+#theeNav a {
+  text-decoration: none;
+  color: white;
+}
+#theeNav a:hover {
   padding: 5px;
+  background-color: var(--second-color);
+  color: black;
 }
 
 /******* footer ********/
@@ -152,20 +163,72 @@ margin-top: -35px; }
 /** 
  * THIS IS FOR THE INVENTORY DISPLAY
  */
- #inv-display {
-    border: solid 3px black;
+ #inv-display {                                      /*ul*/
+    list-style: none; 
+    text-align: center;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
+  #inv-display li {
+    background-color: var(--second-color);           /*li*/
+    border: 3px solid black;
+    border-radius: 3px;
+
+    margin: 5px;
+    max-width: 300px;
+    min-width: 300px;
+
+    display: grid;
+    grid-template-rows: 45% 55%;
+  }
+
+  #inv-display img     {margin-top: 10px;}
+  #inv-display img     {border-radius: 5px;}
+
+  #inv-display a       {list-style: none;}
+  #inv-display a:hover {background-color: var(--second-color);}
+  #inv-display a:link  {color: var(--main-color);}
+  #inv-display a:visited {color: var(--main-color);}
+  #inv-display span    {font-size: var(--font-size-p-alt);}
   #inv-display hr {
-    padding: 5px;
     border: solid black 5px;
     background-color: black;
+    padding: 5px;
 }
 
 
+/** 
+ * THIS IS FOR THE VEHICLE DETAIL PAGE
+ */
+ #discription_section {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-column-gap: 10px;
+ } 
+
+ #discription_left img {
+  width: 100%;
+  height: auto;
+ } 
+
+ #discription_right h2 {font-size: var(--font-size-h2)}
+ #discription_right p:nth-child(odd) { background-color: var(--second-color); }
+ #discription_right p {
+  font-size: var(--font-size-p);
+  padding: 10px;
+}
+
+
+
 @media only screen and (max-width: 777px) {
-  #section1 {display: block;}
-  #right {
+
+  #section1 {display: block;} /* UPGRADES AND REVIEWS SECTION PAGE */
+  #right {                              
     margin-left: 0px;
     text-align: left;
   }
+
+  #discription_section {display: block;} /* VEHICLE DETAIL PAGE */
 }
