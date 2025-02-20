@@ -26,6 +26,9 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
+/* ***************************
+ *  Get all inventory items and classification_name by classification_id
+ * ************************** */
 async function getDetailsFromInventroyById(vehicleId) {
   try {
     const data = await pool.query(

@@ -31,7 +31,7 @@ invCont.BuildDetailsFromInventroyById = async function (reg, res, next) {
   res.render("./details/details", {
     title: description,
     nav,
-    detailsPage,
+    detailsPage, // needs an e
   })       
 }
 

@@ -115,20 +115,21 @@ footer {
     margin: 30px;
     max-width: 140px;
 
-    display: grid;
-    grid-gap: -40px;
+    display: grid; 
     }
   #words button {
     background-color: var(--main-color);
     color: white;
     margin: 10px;
+    margin-top: -10px;
     }
   #words p {
-margin-top: -35px; }
+margin-top: -15px; 
+}
 
 
 /**
- * THIS IS THE UPGRADES AND REVIEWS SECTION
+ * THIS IS THE UPGRADES AND REVIEWS SECTION :: HOME PAGE
  */
  #section1 {
   display: grid;
@@ -220,7 +221,33 @@ margin-top: -35px; }
   padding: 10px;
 }
 
-
+/** 
+ * THIS IS FOR THE FORM RELATED PAGES
+ */
+ .formSection {
+  align-self: center;
+  justify-self: center;
+  margin: 0 200px;
+  font-size: var(--font-size-p);
+ }
+ form {
+  border: 5px solid var(--main-color); border-radius: 10px;
+  background-color: var(--second-color);
+  font-family: var(--ff-paragraph);
+  padding: 10px;
+ }
+ form fieldset {
+  display: flex;
+  flex-direction: column;
+ }
+ label {
+  display: block;
+  padding: .9rem;
+ }
+ form input:focus:invalid { background-color: rgb(255, 232, 232); }
+ form input:required:valid { background-color: rgb(220, 247, 255); } 
+      input {display: block;}
+#noAcount {font-size: var(--font-size-p-alt);}
 
 @media only screen and (max-width: 777px) {
 
