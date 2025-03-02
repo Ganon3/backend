@@ -1,52 +1,51 @@
 const accountModel = require("../models/account-model")
 const utilities = require("../utilities/")
 
-
-/* ****************************************
-*  Deliver login view
-* *************************************** */
-async function buildLogin(req, res, next) {
-    let nav = await utilities.getNav()
-    let loginbox = await utilities.buildLoginPage()
-    res.render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      loginbox
-    })
-}
-
-/* ****************************************
-*  Deliver Register view
-* *************************************** */
-async function buildRegister(req, res, next) {
+/**
+ * Delivers the login view
+ */
+ async function buildLogin(req, res, next) {
   let nav = await utilities.getNav()
-  let registerbox = await utilities.buildRegisterPage()
+  res.render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+  })
+}
+/**
+ * Delivers the register view
+ */
+ async function buildRegister(req, res, next) {
+  let nav = await utilities.getNav()
   res.render("account/register", {
     title: "Register",
     nav,
     errors: null,
-    registerbox
   })
 }
 
 
-/* ****************************************
-*  Process Registration
-* *************************************** */
+/**
+ * Process Registration:
+ * @step_one Run The SQL to add account
+ * @step_two an IF stament to render a view based on regResult
+ * @regResult The result of step one
+ */
 async function registerAccount(req, res) {
-  let nav = await utilities.getNav()
-  const { account_firstname, account_lastname, account_email, account_password } = req.body
-
-  const regResult = await accountModel.registerAccount(
-    account_firstname,
-    account_lastname,
-    account_email,
-    account_password
+  
+ //STEP_ONE: this actulay runs the sql to make a person
+   const { account_firstname, account_lastname, account_email, account_password } = req.body
+   const regResult = await accountModel.registerAccount(
+     account_firstname,
+     account_lastname,
+     account_email,
+     account_password
   )
 
-  if (regResult) {
-    let loginbox = await utilities.buildLoginPage()
+  let nav = await utilities.getNav()
+
+ //STEP_TWO: render good or bad
+  if (regResult) { // req is good
     req.flash(
       "notice",
       `Congratulations, you\'re registered ${account_firstname}. Please log in.`
@@ -55,16 +54,14 @@ async function registerAccount(req, res) {
       title: "Login",
       nav,
       errors: null,
-      loginbox
     })
-  } else {
-    let registerbox = await utilities.buildRegisterPage()
+
+  } else { // reg is bad
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
       errors: null,
-      registerbox
     })
   }
 }

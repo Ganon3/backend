@@ -2,10 +2,12 @@ const { json } = require("express")
 const invModel = require("../models/inventory-model")
 const Util = {}
 
-/* ************************
+
+/**
  * Constructs the nav HTML unordered list
- ************************** */
-Util.getNav = async function (req, res, next) {
+ * @returns an HTML view for nav in partials navigation view <%- nav %>
+ */
+ Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul id='theeNav'>"
   list += '<li class="theeLi"><a href="/" title="Home page">Home</a></li>'
@@ -25,10 +27,24 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-/* **************************************
-* Build the classification view HTML
-* ************************************ */
-Util.buildClassificationGrid = async function(data){
+/**
+ * Constructs the select HTML for add-vehicle.ejs file THEN:
+ * @returns that select tag for add-vehicles view <%- select %>
+ */
+ Util.getSelectLabel = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  let options = '<option value=""> Choose a Classification </option>'
+  data.rows.forEach((row) => { options += `<option value=" ${row.classification_id} "> ${row.classification_name} </option>`})
+  const select = `<select name="classification_id" required> ${options} </select>` 
+  return select
+}
+
+/**
+ * Build the classification view HTML
+ * @param data must be a list of Jasons
+ * @returns an HTML timplet for classification view <%- grid %>
+ */
+ Util.buildClassificationGrid = async function(data){
   let grid
   if(data.length > 0){
     grid = '<ul id="inv-display">'
@@ -59,113 +75,29 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-Util.buildVehicleDetailPage = async function (data) {
-  // return `<p> ${data.inv_id} ${data.inv_make} ${data.inv_model} 
-  // ${data.inv_year} ${data.inv_description} ${data.inv_image} 
-  // ${data.inv_price} ${data.inv_miles} ${data.inv_color}</p>`
 
+/**
+ * Builds Vehicle Detail Page
+ * @param {json} data must be a json not a list of jsons
+ * @returns a HTML templit used to build details view <%- detailsPage %>
+ */
+ Util.buildVehicleDetailPage = async function (data) {
   return `
-            <section id="discription_section">
-
-                <div id="discription_left">
-                    <img src="${data.inv_image}" alt=" A ${data.inv_color} ${data.inv_make} ${data.inv_model}">
-                </div>
-
-                <div id="discription_right">
-                    <h2> ${data.inv_make} ${data.inv_model} description</h2>
-                    <p> Price: ${data.inv_price} </p>
-                    <p> Description: ${data.inv_description} </p>
-                    <p> Color: ${data.inv_color}</p>
-                    <p> Miles: ${data.inv_miles}</p>
-                </div>
-            </section>
-          
-         `
-}
-
-// login
-// login
-Util.buildLoginPage = async function() {
-  return `
-  <section class="formSection id="section_login">
-    <form>
-    <fieldset>
-        <legend>login</legend>
-        <label> Email <input id="email" type="email" name="account_email" placeholder="someone@gmail.com" required> </label>
-        <label> Password <input id="password" type="password" name="account_password" placeholder="password" required pattern="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{12,}$"> </label>
-        <label> <p>Passwords must be minimum of 12 characters and include 1 capital letter 1 number and 1 special charicter </p></label>
-        <label> <button id="showHide" onclick="showHidePassword()"> Show Password </button></label>
-        <label> <button type="submit">login</button></label>
-    </fieldset>
-     <p id="noAcount"> No account? <a href="/account/register"> Sign-up </a></p>
-    </form>
-        <script type="text/javascript">
-        function showHidePassword() {
-
-            const passInput = document.getElementById("password");
-            const button = document.getElementById("showHide");
-            event.preventDefault();
-
-            if (passInput.getAttribute("type") == "password") {
-                
-                passInput.setAttribute("type","text");
-                button.innerHTML = "Hide Password";
-
-            } else {
-
-                passInput.setAttribute("type","password");
-                button.innerHTML = "Show Password";
-            }
-        }
-    </script>
-  </section>
-  `
+    <section id="discription_section">
+        <div id="discription_left">
+            <img src="${data.inv_image}" alt=" A ${data.inv_color} ${data.inv_make} ${data.inv_model}">
+        </div>
+        <div id="discription_right">
+            <h2> ${data.inv_make} ${data.inv_model} description</h2>
+            <p> Price: ${data.inv_price} </p>
+            <p> Description: ${data.inv_description} </p>
+            <p> Color: ${data.inv_color}</p>
+            <p> Miles: ${data.inv_miles}</p>
+        </div>
+    </section>`
 }
 
 
-
-// register
-// register
-Util.buildRegisterPage = async function() {
-  return `
-<section class="formSection id="section_register">
-    <form id="registerForm" action="/account/register" method="post">
-    <p>ALL FIELDS ARE REQUIRED</p>
-    <fieldset>
-        <legend>Sign Up</legend>
-        <label> First Name <input id="fname" type="text" name="account_firstname" required> </label>
-        <label> Last Name <input id="lname" type="text" name="account_lastname" required> </label>
-        <label> Email <input id="email" type="email" name="account_email" placeholder="someone@gmail.com" required> </label>
-        <label> Password <input id="password" type="password" name="account_password" placeholder="password" required pattern="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{12,}$"> </label>
-        <label><p>Passwords must be minimum of 12 characters and include 1 capital letter 1 number and 1 special charicter </p></label>
-        <label><button id="showHide" onclick="showHidePassword()"> Show Password </button></label>
-        <label><button type="submit">Register</button></label>
-    </fieldset>
-    </form>
-
-    <script type="text/javascript">
-        function showHidePassword() {
-
-            const passInput = document.getElementById("password");
-            const button = document.getElementById("showHide");
-            event.preventDefault();
-
-            if (passInput.getAttribute("type") == "password") {
-                
-                passInput.setAttribute("type","text");
-                button.innerHTML = "Hide Password";
-
-            } else {
-
-                passInput.setAttribute("type","password");
-                button.innerHTML = "Show Password";
-            }
-        }
-    </script>
-</section>
-  `
-}
-  
 
 /* ****************************************
  * Middleware For Handling Errors

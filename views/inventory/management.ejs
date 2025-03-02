@@ -1,0 +1,25 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+    <% messages() %>
+
+    <% if (errors) { %>
+      <ul class="notice">
+     <% errors.array().forEach(error => { %>
+       <li><%= error.msg %></li>
+    <%  }) %>
+     </ul>
+  <% } %>
+
+    <section class="formSection" id="invManagment">
+      <form>
+      <fieldset>
+          <legend>ADD Inventory</legend>
+          <label> <a href="/inv/add-classification"> Add Classification  </a> </label>
+          <label> <a href="/inv/add-vehicle"> Add vehicle  </a> </label>
+      </fieldset>
+      </form>
+   </section>

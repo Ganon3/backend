@@ -13,5 +13,39 @@
     <%  }) %>
      </ul>
     <% } %>
-    
-    <%- registerbox %>
+
+    <section class="formSection" id="section_register">
+      <form id="registerForm" action="/account/register" method="post">
+      <p>ALL FIELDS ARE REQUIRED</p>
+      <fieldset>
+          <legend>Sign Up</legend>
+          <label> First Name <input id="fname" type="text" name="account_firstname" required> </label>
+          <label> Last Name <input id="lname" type="text" name="account_lastname" required> </label>
+          <label> Email <input id="email" type="email" name="account_email" placeholder="someone@gmail.com" required> </label>
+          <label> Password <input id="password" type="password" name="account_password" placeholder="password" required pattern="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{12,}$"> </label>
+          <label><p>Passwords must be minimum of 12 characters and include 1 capital letter 1 number and 1 special charicter </p></label>
+          <label><button id="showHide" onclick="showHidePassword()"> Show Password </button></label>
+          <label><button type="submit">Register</button></label>
+      </fieldset>
+      </form>
+  
+      <script type="text/javascript">
+          function showHidePassword() {
+  
+              const passInput = document.getElementById("password");
+              const button = document.getElementById("showHide");
+              event.preventDefault();
+  
+              if (passInput.getAttribute("type") == "password") {
+                  
+                  passInput.setAttribute("type","text");
+                  button.innerHTML = "Hide Password";
+  
+              } else {
+  
+                  passInput.setAttribute("type","password");
+                  button.innerHTML = "Show Password";
+              }
+          }
+      </script>
+  </section>

@@ -16,6 +16,8 @@
 
      --main-color: rgb(0, 120, 180);          /* colors */
      --second-color: rgb(242, 254, 252);
+     --form-invalid-color: rgb(255, 232, 232);
+     --form-valid-color: rgb(220, 247, 255);
 
      --small-check-img: url("small_check.jpg");  /* images links */
 
@@ -227,7 +229,7 @@ margin-top: -15px;
  .formSection {
   align-self: center;
   justify-self: center;
-  margin: 0 200px;
+  margin: 0 20%;
   font-size: var(--font-size-p);
  }
  form {
@@ -244,10 +246,17 @@ margin-top: -15px;
   display: block;
   padding: .9rem;
  }
- form input:focus:invalid { background-color: rgb(255, 232, 232); }
- form input:required:valid { background-color: rgb(220, 247, 255); } 
+ form select  {display: block;}
+ form textarea{display: block;}
+
+ form select:valid           {background-color: var(--form-valid-color);}
+ form textarea:focus:invalid {background-color:  var(--form-invalid-color); }
+ form input:focus:invalid { background-color: var(--form-invalid-color); }
+ form input:required:valid { background-color: var(--form-valid-color); } 
       input {display: block;}
+
 #noAcount {font-size: var(--font-size-p-alt);}
+#classInput{ margin-top: 23px;}
 
 @media only screen and (max-width: 777px) {
 
