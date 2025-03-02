@@ -257,6 +257,8 @@ margin-top: -15px;
 
 #noAcount {font-size: var(--font-size-p-alt);}
 #classInput{ margin-top: 23px;}
+#classInput:required:invalid{background-color: var(--form-invalid-color);}
+#classInput:focus:invalid{background-color: var(--form-invalid-color);}
 
 @media only screen and (max-width: 777px) {
 
