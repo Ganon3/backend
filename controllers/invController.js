@@ -101,8 +101,8 @@ const invCont = {}
  * @result The result of step one
  */
 invCont.addvehicle = async function (req, res) {
-  console.log("log 2")
-  console.log(req.body)
+  // console.log("log 2")
+  // console.log(req.body)
 
   //STEP_ONE: this actulay runs the sql to add a class
      const { 

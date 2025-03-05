@@ -11,7 +11,7 @@ const validate = {}
  * inv_description inv_image inv_thumbnail
  * inv_price inv_year inv_miles inv_color
  */
-validate.vehicleRules = () => {
+ validate.vehicleRules = () => {
     
     const rules = []
   
@@ -48,14 +48,12 @@ validate.vehicleRules = () => {
     rules[4] = 
     body("inv_image")
     .trim()
-    .escape()
     .notEmpty()
     .withMessage("Please add an image path")
 
     rules[5] = 
     body("inv_thumbnail")
     .trim()
-    .escape()
     .notEmpty()
     .withMessage("Please add a thumbnail path")
 
