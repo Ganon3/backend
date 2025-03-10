@@ -62,8 +62,8 @@ getDetailsFromInventroyById
  * ADD the classification info in the peramiter to class data
  * @returns an error if something when rong OR something good if things whent well
  */
-async function 
-addclassification (classification) {
+ async function 
+ addclassification (classification) {
 
   try {
   return await 
@@ -90,7 +90,7 @@ addclassification (classification) {
   inv_image, inv_thumbnail,
   inv_price, inv_year, inv_miles, 
   inv_color
- )    { 
+  )   { 
   try {
   return await 
   pool.query (

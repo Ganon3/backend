@@ -15,6 +15,7 @@
  const expressLayouts = require("express-ejs-layouts")  // this sets up the train tracks so to speek for the session
  const env = require("dotenv").config()                 // this is local host info for the session
  const bodyParser = require("body-parser")              // this alows req.body to be turned into a usable JSON i think for this session
+ const cookieParser = require("cookie-parser")          // this alows the session to read cockies
 
  const app = express()                                  // app is the name of this session
  
@@ -53,6 +54,7 @@
  
  app.use(bodyParser.json()) 
  app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+ app.use(cookieParser())
 
 /**/
 
@@ -84,18 +86,18 @@
 * Express Error Handler
 * Place after all other middleware
 *************************/
- app.use(async (err, req, res, next) => {
+//  app.use(async (err, req, res, next) => {
    
-   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-   if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+//    console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+//    if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
 
-   let nav = await utilities.getNav()
-   res.render("errors/error", {
-     title: err.status || 'Server Error',
-     message,
-     nav
-   })
- })
+//    let nav = await utilities.getNav()
+//    res.render("errors/error", {
+//      title: err.status || 'Server Error',
+//      message,
+//      nav
+//    })
+//  })
 
 /**/
 

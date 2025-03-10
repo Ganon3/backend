@@ -9,15 +9,23 @@ const regValidate       = require('../utilities/account-validation')
 
 
 // Routes to build acount view
-// posts to make acount                           hover over function to read 
-router.get("/login",          utilities.handleErrors(accountController.buildLogin))
-router.get("/register",       utilities.handleErrors(accountController.buildRegister))
+// posts to make or loginto an acount                         hover over function to read 
+router.get("/login",                          utilities.handleErrors(accountController.buildLogin))
+router.get("/register",                       utilities.handleErrors(accountController.buildRegister))
+router.get("/",         utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
 
 router.post(
     "/register",
     regValidate.registationRules(),
     regValidate.checkRegData,                             // i relise that this is saying check and register the data... i think
     accountController.registerAccount
+)
+
+router.post( 
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.accountLogin)
 )
 
 
