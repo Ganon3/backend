@@ -1,5 +1,7 @@
 const { json } = require("express")
 const invModel = require("../models/inventory-model")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const Util = {}
 
 
@@ -7,7 +9,7 @@ const Util = {}
  * Constructs the nav HTML unordered list
  * @returns an HTML view for nav in partials navigation view <%- nav %>
  */
- Util.getNav = async function (req, res, next) {
+ Util.getNav = async function () {
   let data = await invModel.getClassifications()
   let list = "<ul id='theeNav'>"
   list += '<li class="theeLi"><a href="/" title="Home page">Home</a></li>'
@@ -28,15 +30,28 @@ const Util = {}
 }
 
 /**
- * Constructs the select HTML for add-vehicle.ejs file THEN:
- * @returns that select tag for add-vehicles view <%- select %>
+ * Constructs the vehicle class select HTML string bassed on argumnet
+ * @param {(number|null)} classNum - null or number - null by default
+ * @return null: a select tag with all class options 
+ * @return number: a select tag with one class option
  */
- Util.getSelectLabel = async function (req, res, next) {
+ Util.getSelectLabel = async function (classNum = null) {
+  
   let data = await invModel.getClassifications()
-  let options = '<option value=""> Choose a Classification </option>'
-  data.rows.forEach((row) => { options += `<option value=" ${row.classification_id} "> ${row.classification_name} </option>`})
-  const select = `<select name="classification_id" required> ${options} </select>` 
-  return select
+  if (classNum == null) 
+  {
+    let options = '<option value=""> Choose a Classification </option>'
+    data.rows.forEach((row) => { options += `<option value=" ${row.classification_id} "> ${row.classification_name} </option>` })
+    const select = `<select id="classificationList" name="classification_id" required> ${options} </select>`
+    return select
+  } 
+  else 
+  {
+    let options = ""
+    data.rows.forEach((row) => { if (row.classification_id = classNum) {options = `<option value=" ${row.classification_id} "> ${row.classification_name} </option>`} })
+    const select = `<select id="classificationList" name="classification_id" required> ${options} </select>`
+    return select
+  }
 }
 
 /**
@@ -44,32 +59,32 @@ const Util = {}
  * @param data must be a list of Jasons
  * @returns an HTML timplet for classification view <%- grid %>
  */
- Util.buildClassificationGrid = async function(data){
+ Util.buildClassificationGrid = async function (data) {
   let grid
-  if(data.length > 0){
+  if (data.length > 0) {
     grid = '<ul id="inv-display">'
-    data.forEach(vehicle => { 
+    data.forEach(vehicle => {
       grid += '<li>'
       // grid += vehicle.inv_id + vehicle.inv_thumbnail
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      grid += '<a href="../../inv/detail/' + vehicle.inv_id
+        + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model
+        + 'details"><img src="' + vehicle.inv_thumbnail
+        + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model
+        + ' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
+      grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View '
+        + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
+        + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
-      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      grid += '<span>$'
+        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
     })
     grid += '</ul>'
-  } else { 
+  } else {
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
@@ -97,6 +112,33 @@ const Util = {}
     </section>`
 }
 
+
+
+
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+   jwt.verify(
+    req.cookies.jwt,
+    process.env.ACCESS_TOKEN_SECRET,
+    function (err, accountData) {
+     if (err) {
+      req.flash("Please log in")
+      res.clearCookie("jwt")
+      return res.redirect("/account/login")
+     }
+     res.locals.accountData = accountData
+     res.locals.loggedin = 1
+     next()
+    })
+  } else {
+   next()
+  }
+}
+
 /* ****************************************
  *  Check Login
  * ************************************ */
@@ -107,7 +149,7 @@ const Util = {}
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
 
 /* ****************************************
  * Middleware For Handling Errors

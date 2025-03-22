@@ -10,12 +10,16 @@ const vehicelValidate = require('../utilities/add-vehicle-validation')
 
 
 // Routes to build inventory
-// posts to make inventory                                     hover over functions for info
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
-router.get("/detail/:vehicleId",      utilities.handleErrors(invController.BuildDetailsFromInventroyById))
-router.get("/",                       utilities.handleErrors(invController.buildManagementView))
-router.get("/add-classification",     utilities.handleErrors(invController.buildAddClassificationView))
-router.get("/add-vehicle",            utilities.handleErrors(invController.buildAddVehicleView))
+// posts to make inventory                                                    hover over functions for info
+router.get("/type/:classificationId",               utilities.handleErrors(invController.buildByClassificationId))
+router.get("/detail/:vehicleId",                    utilities.handleErrors(invController.BuildDetailsFromInventroyById))
+router.get("/",                                     utilities.handleErrors(invController.buildManagementView))
+router.get("/add-classification",                   utilities.handleErrors(invController.buildAddClassificationView))
+router.get("/add-vehicle",                          utilities.handleErrors(invController.buildAddVehicleView))
+router.get("/getInventory/:classification_id",      utilities.handleErrors(invController.getInventoryJSON))
+router.get("/edit/:inv_id",                         utilities.handleErrors(invController.buildEditView))
+
+//router.get("/delet/:vehicleId",       utilities.handleErrors(invController.buildDeletView))
 
 router.post(
     "/add-classification",
@@ -29,5 +33,19 @@ router.post(
     vehicelValidate.checkVehicleData,
     invController.addvehicle
 )
+router.post(
+    "/update/",
+    vehicelValidate.vehicleRules(),
+    vehicelValidate.editVehicleData, 
+    invController.updateInventory
+)
+
+
+// router.post(
+    // "/delet/:vehicleId",
+    // vehicelValidate.deletRuls(),
+    // vehicelValidate.confirmDelet, // rename later
+    // invController.deletvehicle
+// )
 
 module.exports = router

@@ -9,7 +9,7 @@ const validate = {}
  * @returns the rules for the Form inputs: 
  * classification_id inv_make inv_model 
  * inv_description inv_image inv_thumbnail
- * inv_price inv_year inv_miles inv_color
+ * inv_price inv_year inv_miles inv_color, inv_id
  */
  validate.vehicleRules = () => {
     
@@ -62,7 +62,7 @@ const validate = {}
     .trim()
     .escape()
     .notEmpty()
-    .isFloat({ gt: 0 })  // https://express-validator.github.io/docs/api/validation-chain/  there is to much 
+    .isFloat({ gt: 0 })           // https://express-validator.github.io/docs/api/validation-chain/  there is to much 
     .withMessage("Please add a price")
 
     rules[7] = 
@@ -87,6 +87,15 @@ const validate = {}
     .escape()
     .notEmpty()
     .withMessage("Please add the vehicel color")
+
+    rules[10] = 
+    body("inv_id")
+    .if((value, { req }) => req.body.hasOwnProperty('inv_id'))   // https://express-validator.github.io/docs/api/validation-chain/#if
+    .trim()
+    .escape()
+    .isInt()
+    .notEmpty()
+    .withMessage("There is a problem with the vehicle ID")     
 
     return rules
 }
@@ -127,6 +136,56 @@ const validate = {}
     next()
 }
 
+/**
+ * Check data and renders errors OR continue to editing the vehicle
+ * @returns NOTHING : this is to escape the function
+ * @next IF the errors list is empty go next() 
+ */
+validate.editVehicleData = async (req, res, next) => {
+   console.log("log 1")
+   const { 
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id, 
+    } = req.body
+    let errors = []
+    errors = validationResult(req)
+    console.log(req.body)
 
+      /**
+       * IF errs, do NOT go next()  ${inv_id}
+       */
+       if (!errors.isEmpty()) {                                // i just relized this says: if the errors list is not empty stop everything and render the page with the errors
+       let nav = await utilities.getNav()
+       let classSelect = await utilities.getSelectLabel()
+       res.render(`inventory/edit-vehicle`, {
+          errors,
+          title: "Add Vehicle",
+          nav,
+          classSelect,
+          inv_id,
+          inv_make,
+          inv_model,
+          inv_description,
+          inv_image,
+          inv_thumbnail,
+          inv_price,
+          inv_year,
+          inv_miles,
+          inv_color,
+          classification_id,
+       // then 
+      }); return }
+
+   next()
+}
 
 module.exports = validate

@@ -12,7 +12,7 @@ const regValidate       = require('../utilities/account-validation')
 // posts to make or loginto an acount                         hover over function to read 
 router.get("/login",                          utilities.handleErrors(accountController.buildLogin))
 router.get("/register",                       utilities.handleErrors(accountController.buildRegister))
-router.get("/",         utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+router.get("/",    utilities.checkLogin,      utilities.handleErrors(accountController.buildAccountManagement))
 
 router.post(
     "/register",
@@ -20,7 +20,6 @@ router.post(
     regValidate.checkRegData,                             // i relise that this is saying check and register the data... i think
     accountController.registerAccount
 )
-
 router.post( 
     "/login",
     regValidate.loginRules(),

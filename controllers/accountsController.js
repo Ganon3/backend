@@ -27,7 +27,11 @@ require("dotenv").config()
     errors: null,
   })
 }
-async function buildAccountManagement(req, res, next) {
+
+/**
+ * Dilivers the account managment view
+ */
+ async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav()
   res.render("account/management", {
     title: "Account Management",

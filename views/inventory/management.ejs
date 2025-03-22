@@ -4,7 +4,7 @@
       res.redirect('/')
     } %>
 
-    <% messages() %>
+    <%- messages() %>
 
     <% if (errors) { %>
       <ul class="notice">
@@ -14,12 +14,20 @@
      </ul>
   <% } %>
 
-    <section class="formSection" id="invManagment">
-      <form>
-      <fieldset>
-          <legend>ADD Inventory</legend>
-          <label> <a href="/inv/add-classification"> Add Classification  </a> </label>
-          <label> <a href="/inv/add-vehicle"> Add vehicle  </a> </label>
-      </fieldset>
-      </form>
-   </section>
+  <section class="formSection" id="invManagment">
+    <form>
+    <fieldset>
+        <legend>ADD Inventory</legend>
+        <label> <a href="/inv/add-classification"> Add Classification  </a> </label>
+        <label> <a href="/inv/add-vehicle"> Add vehicle  </a> </label>
+    </fieldset>
+    <fieldset>
+      <legend>Manage Inventory</legend>
+      <label> Choose a Classification to see those inventory items</label>
+      <label> Classification <%- select %> </label>
+      <label style="text-align: center;"> Table <table id="inventoryDisplay"></table>    </label>
+      <noscript>--- javascript must be enabeld to sue this page ---</noscript>
+    </fieldset>
+    </form>
+ </section>
+ <script src="../../js/inventory.js"></script>
