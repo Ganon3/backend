@@ -146,4 +146,25 @@ getDetailsFromInventroyById
   { console.error("model error: " + error) }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getDetailsFromInventroyById, addclassification, addvehicle, updateInventory}
+
+/**
+ * DELETS inventory with the inputed inv_id
+ * @returns a confirmation
+ */
+async function 
+deleteVehicle (inv_id) {
+
+  try {
+  return await
+  pool.query(
+    
+    'DELETE FROM inventory WHERE inv_id = $1',
+
+    [inv_id]
+    
+  )
+  } catch (error) 
+  { new Error("Delete Inventory Error") }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getDetailsFromInventroyById, addclassification, addvehicle, updateInventory, deleteVehicle}

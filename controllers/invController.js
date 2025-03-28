@@ -48,7 +48,14 @@ const invCont = {}
 /**
  * This is to build managment main view
  */
- invCont.buildManagementView = async function (reg, res, next) {
+ invCont.buildManagementView = async function (req, res, next) {
+
+  if (res.locals.accountData.account_type != "Employee" && res.locals.accountData.account_type != "Admin") {
+    req.flash('error', 'Clients are not authorized to go there');
+    res.redirect("/account/login");
+    return
+  }
+
   let nav = await utilities.getNav()
   const select = await utilities.getSelectLabel()
   res.render("./inventory/management", {
@@ -101,6 +108,23 @@ const invCont = {}
   }
 }
 
+invCont.buildDeletView = async (req, res, next) => {
+  const inv_id = parseInt(req.params.inv_id)
+  const itemData = (await invModel.getDetailsFromInventroyById(inv_id))[0]
+
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  let nav = await utilities.getNav()
+  res.render("./inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_price: itemData.inv_price,
+  })
+}
 
 /**
  * PLS ADD COMMENT
@@ -144,9 +168,7 @@ const invCont = {}
  * @result The result of step one
  */
 invCont.addvehicle = async function (req, res) {
-  // console.log("log 2")
-  // console.log(req.body)
-
+  
   //STEP_ONE: this actulay runs the sql to add a class
      const { 
       classification_id, inv_make, inv_model, 
@@ -273,6 +295,40 @@ invCont.addvehicle = async function (req, res) {
     inv_miles,
     inv_color,
     classification_id
+    })
+  }
+}
+
+invCont.deletevehicle = async function (req, res, next) {
+  let nav = await utilities.getNav()
+
+  const { 
+    inv_id, 
+    inv_make, 
+    inv_model, 
+    inv_price, 
+    inv_year 
+    } = req.body
+
+  const updateResult = await invModel.deleteVehicle( inv_id )
+
+  if (updateResult) {
+    const itemName = `${inv_make} ${inv_model}`
+    req.flash("notice", `The ${itemName} was successfully deleted.`)
+    res.redirect("/inv/")
+
+  } else {
+    const itemName = `${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the deletion failed.")
+    res.status(501).render(`./inventory/delete-confirm`, {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_price,
+    inv_year
     })
   }
 }

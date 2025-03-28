@@ -12,7 +12,8 @@ const regValidate       = require('../utilities/account-validation')
 // posts to make or loginto an acount                         hover over function to read 
 router.get("/login",                          utilities.handleErrors(accountController.buildLogin))
 router.get("/register",                       utilities.handleErrors(accountController.buildRegister))
-router.get("/",    utilities.checkLogin,      utilities.handleErrors(accountController.buildAccountManagement))
+router.get("/",         utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+router.get("/update",   utilities.checkLogin, utilities.handleErrors(accountController.buildAccountEdit))
 
 router.post(
     "/register",

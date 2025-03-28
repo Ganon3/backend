@@ -40,6 +40,23 @@ require("dotenv").config()
   })
 }
 
+async function buildAccountEdit(req, res, next) {
+  console.log(res.locals.accountData)
+  const account_firstname = res.locals.accountData.account_firstname
+  const account_lastname  = res.locals.accountData.account_lastname
+  const account_email     = res.locals.accountData.account_email
+    let nav = await utilities.getNav()
+  
+  res.render("account/update", {
+    title: "Edit Account",
+    nav,
+    errors: null,
+    account_firstname,
+    account_lastname,
+    account_email
+  })
+}
+
 
 /** LOGIN PROCESS */
 /**
@@ -155,4 +172,4 @@ require("dotenv").config()
 }
 
   
-module.exports = { buildLogin, buildRegister, buildAccountManagement, registerAccount, accountLogin }
+module.exports = { buildLogin, buildRegister, buildAccountManagement, registerAccount, accountLogin, buildAccountEdit }

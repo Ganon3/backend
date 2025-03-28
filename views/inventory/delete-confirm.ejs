@@ -1,0 +1,51 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+    <%- messages() %>
+
+    <% if (errors) { %>
+        <ul class="notice">
+       <% errors.array().forEach(error => { %>
+         <li><%= error.msg %></li>
+      <%  }) %>
+       </ul>
+    <% } %>
+
+    <!-- classification_id inv_make inv_model 
+         inv_description inv_image inv_thumbnail
+         inv_price inv_year inv_miles inv_color 
+         
+         to see if the input names match up  |||| https://blog.joeandrieu.com/2013/10/16/how-to-conditionally-display-variables-with-ejs/-->
+
+    <section class="formSection" id="editVehicle">
+      <p>Confirm Deletion - The delete is permanent.</p>
+      <form id="deleteForm" action="/inv/delete" method="post">
+      <fieldset>
+
+          <legend>Delete Vehicle</legend>
+          <label> Make           <input  readonly  type="text" name="inv_make"       placeholder="min of 3 characters" required pattern="^[a-zA-Z0-9][a-zA-Z0-9 ]{2,}"   <% if(locals.inv_make) { %> value="<%= locals.inv_make %>" <% } %>>                         </label>
+          <label> Model          <input  readonly  type="text" name="inv_model"      placeholder="min of 3 characters" required pattern="^[a-zA-Z0-9][a-zA-Z0-9 ]{2,}"   <% if(locals.inv_model) { %> value="<%= locals.inv_model %>" <% } %>>                       </label>
+          <label> Price          <input  readonly  type="text" name="inv_price"      placeholder="decimal or integer"  required pattern="[0-9.]{1,}"                     <% if(locals.inv_price) { %> value="<%= locals.inv_price %>" <% } %>>                       </label>
+          <label> Year           <input  readonly  type="text" name="inv_year"       placeholder="1946"                required pattern="[0-9]{4,4}"                     <% if(locals.inv_year) { %> value="<%= locals.inv_year %>" <% } %>>                         </label>
+          <label> CONFIRM        <input  type="text" id="confirm"        placeholder="Type: CONFIRM"></label>
+          <label> <button type="submit" disabled> Delete Vehicle </button> </label>
+
+      </fieldset>
+      <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+      </form>
+
+      <script type="text/javascript">
+        const confirmElement = document.getElementById("confirm")
+        confirmElement.addEventListener("change", () => {
+
+            if (confirmElement.value == "CONFIRM") 
+            {
+                document.querySelector("button").removeAttribute("disabled")
+            }
+        })
+
+      </script>
+   </section>
