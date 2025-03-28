@@ -40,6 +40,9 @@ require("dotenv").config()
   })
 }
 
+/**
+ * Dilivers account update view
+ */
 async function buildAccountEdit(req, res, next) {
   console.log(res.locals.accountData)
   const account_firstname = res.locals.accountData.account_firstname

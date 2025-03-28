@@ -145,5 +145,62 @@ const validate = {}
 
 /**/
   
+/** UPDATE */
+
+validate.updateRules = () => {
+
+  let rules = []
+
+  rules[0] = 
+  body("account_firstname")
+  .trim()
+  .escape()
+  .notEmpty()
+  .isLength({ min: 1 })
+  .withMessage("Please provide a first name.") 
+
+  rules[1] =
+  body("account_lastname")
+  .trim()
+  .escape()
+  .notEmpty()
+  .isLength({ min: 2 })
+  .withMessage("Please provide a last name.")
+
+  rules[2] =     
+  body("account_email")
+ .trim()
+ .escape()
+ .notEmpty()
+ .isEmail()
+ .normalizeEmail() // refer to validator.js docs
+ .withMessage("A valid email is required.")
+
+  return rules
+}
+
+validate.cheackUpdateData = async (req, res, next) => {
+
+  const { account_firstname, account_lastname, account_email } = req.body
+  let errors = []
+  errors = validationResult(req)
+
+    /**
+    * IF errs, do NOT go next()  
+    */
+    if (!errors.isEmpty()) {                              
+      let nav = await utilities.getNav()
+      res.render("./account/update", {
+         errors,
+         title: "Edit Account",
+         nav,
+         account_firstname,
+         account_lastname, 
+         account_email
+      // then 
+      });return }
+      
+  next()
+}
 
 module.exports = validate

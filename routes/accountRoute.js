@@ -27,6 +27,11 @@ router.post(
     regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin)
 )
+router.post(
+    "/update",
+    regValidate.updateRules(),
+    regValidate.cheackUpdateData,
+)
 
 
 module.exports = router
