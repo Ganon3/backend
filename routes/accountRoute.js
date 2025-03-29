@@ -31,6 +31,7 @@ router.post(
     "/update",
     regValidate.updateRules(),
     regValidate.cheackUpdateData,
+    utilities.handleErrors(accountController.accountUpdate)
 )
 
 

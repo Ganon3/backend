@@ -44,7 +44,7 @@ require("dotenv").config()
  * Dilivers account update view
  */
 async function buildAccountEdit(req, res, next) {
-  console.log(res.locals.accountData)
+  const account_id        = res.locals.accountData.account_id
   const account_firstname = res.locals.accountData.account_firstname
   const account_lastname  = res.locals.accountData.account_lastname
   const account_email     = res.locals.accountData.account_email
@@ -54,6 +54,7 @@ async function buildAccountEdit(req, res, next) {
     title: "Edit Account",
     nav,
     errors: null,
+    account_id,
     account_firstname,
     account_lastname,
     account_email
@@ -174,5 +175,47 @@ async function buildAccountEdit(req, res, next) {
   }
 }
 
-  
-module.exports = { buildLogin, buildRegister, buildAccountManagement, registerAccount, accountLogin, buildAccountEdit }
+
+async function accountUpdate (req, res) {
+  let nav = await utilities.getNav()
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+ 
+  const regResult = await accountModel.accountUpdate(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+ )
+
+  if (regResult) { // req is good
+    req.flash(
+      "notice",
+      `Update was succesfull`
+    )
+    res.status(201).render("account/update", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    })
+
+  } else { // reg is bad
+    req.flash("notice", "The Update has faild")
+    res.status(501).render("account/update", {
+      title: "Registration",
+      nav,
+      errors: null,
+      account_firstname,
+      account_lastname,
+      account_email,
+    })
+  }
+
+
+} 
+
+
+module.exports = { buildLogin, buildRegister, buildAccountManagement, registerAccount, accountLogin, buildAccountEdit, accountUpdate }

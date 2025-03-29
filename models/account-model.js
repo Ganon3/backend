@@ -30,6 +30,37 @@ const pool = require("../database/")
 }
 
 /**
+ * Edit old Account:
+ * @returns Something good if query whent well or an ERR if not
+ */
+async function accountUpdate (
+  account_id,
+  account_firstname, 
+  account_lastname, 
+  account_email, 
+  )   {
+  try {
+    
+    const sql = 
+  ` UPDATE public.account SET 
+    account_firstname = $1,
+    account_lastname = $2,
+    account_email = $3
+    WHERE account_id = $4
+    RETURNING *
+    `
+
+    const DATA = 
+    [ account_firstname, account_lastname, account_email, account_id ]
+    
+    return await pool.query(sql, DATA)
+
+  } catch (error) 
+  { console.error("Error in accountUpdate:", error); return error.message }
+}
+
+
+/**
  * @returns account data using email address
  */
  async function 
@@ -52,4 +83,4 @@ const pool = require("../database/")
   { return new Error("No matching email found") }
 }
 
-module.exports = { registerAccount , getAccountByEmail}
+module.exports = { registerAccount , getAccountByEmail, accountUpdate}

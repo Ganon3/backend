@@ -152,6 +152,15 @@ validate.updateRules = () => {
   let rules = []
 
   rules[0] = 
+  body("account_id")
+  .if((value, { req }) => req.body.hasOwnProperty('account_id'))   // https://express-validator.github.io/docs/api/validation-chain/#if
+  .trim()
+  .escape()
+  .isInt()
+  .notEmpty()
+  .withMessage("There is a problem with the account ID")  
+
+  rules[1] = 
   body("account_firstname")
   .trim()
   .escape()
@@ -159,7 +168,7 @@ validate.updateRules = () => {
   .isLength({ min: 1 })
   .withMessage("Please provide a first name.") 
 
-  rules[1] =
+  rules[2] =
   body("account_lastname")
   .trim()
   .escape()
@@ -167,7 +176,7 @@ validate.updateRules = () => {
   .isLength({ min: 2 })
   .withMessage("Please provide a last name.")
 
-  rules[2] =     
+  rules[3] =     
   body("account_email")
  .trim()
  .escape()
@@ -181,7 +190,7 @@ validate.updateRules = () => {
 
 validate.cheackUpdateData = async (req, res, next) => {
 
-  const { account_firstname, account_lastname, account_email } = req.body
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
   let errors = []
   errors = validationResult(req)
 
@@ -194,6 +203,7 @@ validate.cheackUpdateData = async (req, res, next) => {
          errors,
          title: "Edit Account",
          nav,
+         account_id,
          account_firstname,
          account_lastname, 
          account_email
