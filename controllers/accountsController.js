@@ -218,6 +218,7 @@ require("dotenv").config()
 
   } else {
 
+    const structure = { title: "Account Managment", nav, errors: null, account_id, account_firstname, account_lastname, account_email }
     const regResult = await accountModel.accountUpdate( account_id, account_firstname, account_lastname, account_email, account_password)
                      if (regResult) 
       { 
