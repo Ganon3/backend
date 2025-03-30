@@ -9,7 +9,7 @@ const validate = {}
  * Classification Data Validation Rules
  * @returns a rule for the Form input: classification_name
  */ 
-validate.classificationRules = () => { 
+ validate.classificationRules = () => { 
     
     const rule = []
   

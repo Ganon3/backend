@@ -139,9 +139,10 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
-/* ****************************************
- *  Check Login
- * ************************************ */
+/**
+ * Check Login IF good go next
+ * @returns ELSE give notes and redirect to login
+ */
  Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
@@ -151,10 +152,10 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
-/* ****************************************
- * Logout
- * ************************************ */
-Util.logout = (req, res, next) => {
+/**
+ * Logs the indevidual out by clearing jwt cooki IF good ElSE redirect to login
+ */
+ Util.logout = (req, res, next) => {
   if (res.locals.loggedin) {
 
     res.clearCookie('jwt');
@@ -163,7 +164,7 @@ Util.logout = (req, res, next) => {
   
   } else {
 
-    req.flash("notice", "Please log in to log out")
+    req.flash("notice", "You are not loged in")
     res.redirect("/account/login")
   }
 }

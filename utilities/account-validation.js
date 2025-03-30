@@ -83,7 +83,7 @@ const validate = {}
 /** LOGIN */
  /**
   * Login Data Validation Rules
-  * @returns rulls for each of its Form input:
+  * @returns rulls for each of its Form input: account_email account_password
   */
  validate.loginRules = () => {
    
@@ -110,7 +110,6 @@ const validate = {}
     minSymbols: 1,
   })
   .withMessage("Password does not meet requirements.")
-
   return rules
  }
  
@@ -146,8 +145,11 @@ const validate = {}
 /**/
   
 /** UPDATE */
-
-validate.updateRules = () => {
+/**
+  * Update Data Validation Rules
+  * @returns rulls for each of its Form input: account_id account_firstname account_lastname account_email account_password
+ */
+ validate.updateRules = () => {
 
   let rules = []
 
@@ -201,10 +203,14 @@ validate.updateRules = () => {
    minSymbols: 1,
  })
  .withMessage("Password does not meet requirements.")
-
   return rules
 }
 
+/**
+ * Check data and return errors OR continue updating account data
+ * @returns NOTHING : this is to escape the function
+ * @next IF the errors list is empty go next() 
+ */
 validate.cheackUpdateData = async (req, res, next) => {
 
   const { account_id, account_firstname, account_lastname, account_email, account_password = null } = req.body

@@ -151,8 +151,8 @@ getDetailsFromInventroyById
  * DELETS inventory with the inputed inv_id
  * @returns a confirmation
  */
-async function 
-deleteVehicle (inv_id) {
+ async function 
+ deleteVehicle (inv_id) {
 
   try {
   return await

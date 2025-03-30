@@ -108,7 +108,10 @@ const invCont = {}
   }
 }
 
-invCont.buildDeletView = async (req, res, next) => {
+/**
+ * Render Inventory Delet page
+ */
+ invCont.buildDeletView = async (req, res, next) => {
   const inv_id = parseInt(req.params.inv_id)
   const itemData = (await invModel.getDetailsFromInventroyById(inv_id))[0]
 
@@ -127,7 +130,8 @@ invCont.buildDeletView = async (req, res, next) => {
 }
 
 /**
- * PLS ADD COMMENT
+ * Build Inventory Edit View using the inv_id to find the vehicle
+ * @itemData is where all the vehicle data is stored 
  */
  invCont.buildEditView = async (req, res, next) => {
   const inv_id = parseInt(req.params.inv_id)
@@ -238,9 +242,10 @@ invCont.addvehicle = async function (req, res) {
       }
 }
 
-/* ***************************
- *  Update Inventory Data
- * ************************** */
+/**
+ * THIS Update Inventory Data
+ * @updateResult IF result is Good go to managment page ELSE go back to edit page
+ */
  invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
   const {
@@ -299,7 +304,11 @@ invCont.addvehicle = async function (req, res) {
   }
 }
 
-invCont.deletevehicle = async function (req, res, next) {
+/**
+ * THIS delets a vehicle 
+ * @updateResult IF deletion was Good go to managment page ELSE go to deletion page
+ */
+ invCont.deletevehicle = async function (req, res, next) {
   let nav = await utilities.getNav()
 
   const { 

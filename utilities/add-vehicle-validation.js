@@ -141,7 +141,7 @@ const validate = {}
  * @returns NOTHING : this is to escape the function
  * @next IF the errors list is empty go next() 
  */
-validate.editVehicleData = async (req, res, next) => {
+ validate.editVehicleData = async (req, res, next) => {
    console.log("log 1")
    const { 
       inv_id,

@@ -23,8 +23,11 @@
 })
 
 
-// Build inventory items into HTML table components and inject into DOM 
-function buildInventoryList(data) { 
+/**
+ * Build inventory items into HTML table components and inject into DOM 
+ * @param {JSON} data 
+ */
+ function buildInventoryList(data) { 
     let inventoryDisplay = document.getElementById("inventoryDisplay"); 
     // Set up the table labels 
     let dataTable = '<thead>'; 
