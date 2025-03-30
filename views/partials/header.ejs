@@ -7,7 +7,7 @@
         <a title="Click to log in" href="/account/login" style="text-decoration: none; color: black;">My Account</a>
       <% } else { %>
         <a title="Mannag your account" style="text-decoration: none; color: black;" href="/account/update"> Welcome <%- locals.accountData.account_type %> : </a>
-        <a style="text-decoration: none; color: black;" href="#"> Logout </a>
+        <a style="text-decoration: none; color: black;" href="/account/logout"> Logout </a>
       <% } %>
     </div>
 </header>

@@ -152,6 +152,23 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
+ * Logout
+ * ************************************ */
+Util.logout = (req, res, next) => {
+  if (res.locals.loggedin) {
+
+    res.clearCookie('jwt');
+    req.flash("notice", "You are loged out")
+    res.redirect("/")
+  
+  } else {
+
+    req.flash("notice", "Please log in to log out")
+    res.redirect("/account/login")
+  }
+}
+
+/* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling

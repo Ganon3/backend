@@ -44,10 +44,12 @@ require("dotenv").config()
  * Dilivers account update view
  */
 async function buildAccountEdit(req, res, next) {
+  const account_data = await accountModel.getAccountInfoByID(res.locals.accountData.account_id)
+  console.log(account_data)
   const account_id        = res.locals.accountData.account_id
-  const account_firstname = res.locals.accountData.account_firstname
-  const account_lastname  = res.locals.accountData.account_lastname
-  const account_email     = res.locals.accountData.account_email
+  const account_firstname = account_data.account_firstname
+  const account_lastname  = account_data.account_lastname
+  const account_email     = account_data.account_email
     let nav = await utilities.getNav()
   
   res.render("account/update", {
@@ -178,43 +180,100 @@ async function buildAccountEdit(req, res, next) {
 
 async function accountUpdate (req, res) {
   let nav = await utilities.getNav()
-  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  const { account_id, account_firstname, account_lastname, account_email, account_password = null } = req.body
  
-  const regResult = await accountModel.accountUpdate(
-    account_id,
-    account_firstname,
-    account_lastname,
-    account_email,
- )
+  if (account_password != null) {
+    let hashedPassword
+    try {
+      // regular password and cost (salt is generated automatically)
+      hashedPassword = await bcrypt.hashSync(account_password, 10)
+      const regResult = await accountModel.accountUpdate(
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+        hashedPassword,
+     )
 
-  if (regResult) { // req is good
-    req.flash(
-      "notice",
-      `Update was succesfull`
-    )
-    res.status(201).render("account/update", {
-      title: "Login",
-      nav,
-      errors: null,
+     if (regResult) { // req is good
+      req.flash(
+        "notice",
+        `Update was succesfull`
+      )
+      res.status(201).render("account/update", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email
+      })
+  
+    } else { // reg is bad
+      req.flash("notice", "The Update has faild")
+      res.status(501).render("account/update", {
+        title: "Registration",
+        nav,
+        errors: null,
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+      })
+    }
+
+    } catch (error) {
+      req.flash("notice", 'Sorry, there was an error processing the registration.')
+      res.status(500).render("account/update", {
+        title: "Registration",
+        nav,
+        errors: null,
+        account_id, 
+        account_firstname, 
+        account_lastname, 
+        account_email
+      })
+    }
+
+  } else {
+
+    const regResult = await accountModel.accountUpdate(
       account_id,
       account_firstname,
       account_lastname,
-      account_email
-    })
-
-  } else { // reg is bad
-    req.flash("notice", "The Update has faild")
-    res.status(501).render("account/update", {
-      title: "Registration",
-      nav,
-      errors: null,
-      account_firstname,
-      account_lastname,
       account_email,
-    })
+      account_password
+   )
+  
+    if (regResult) { // req is good
+      req.flash(
+        "notice",
+        `Update was succesfull`
+      )
+      res.status(201).render("account/update", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email
+      })
+  
+    } else { // reg is bad
+      req.flash("notice", "The Update has faild")
+      res.status(501).render("account/update", {
+        title: "Registration",
+        nav,
+        errors: null,
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+      })
+    }
   }
-
-
 } 
 
 

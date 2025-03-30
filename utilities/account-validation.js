@@ -162,6 +162,7 @@ validate.updateRules = () => {
 
   rules[1] = 
   body("account_firstname")
+  .if((value, { req }) => req.body.hasOwnProperty('account_firstname'))
   .trim()
   .escape()
   .notEmpty()
@@ -170,6 +171,7 @@ validate.updateRules = () => {
 
   rules[2] =
   body("account_lastname")
+  .if((value, { req }) => req.body.hasOwnProperty('account_lastname'))
   .trim()
   .escape()
   .notEmpty()
@@ -178,6 +180,7 @@ validate.updateRules = () => {
 
   rules[3] =     
   body("account_email")
+  .if((value, { req }) => req.body.hasOwnProperty('account_email'))
  .trim()
  .escape()
  .notEmpty()
@@ -185,12 +188,26 @@ validate.updateRules = () => {
  .normalizeEmail() // refer to validator.js docs
  .withMessage("A valid email is required.")
 
+ rules[4] = 
+ body("account_password")
+ .if((value, { req }) => req.body.hasOwnProperty('account_password'))
+ .trim()
+ .notEmpty()
+ .isStrongPassword({
+   minLength: 12,
+   minLowercase: 1,
+   minUppercase: 1,
+   minNumbers: 1,
+   minSymbols: 1,
+ })
+ .withMessage("Password does not meet requirements.")
+
   return rules
 }
 
 validate.cheackUpdateData = async (req, res, next) => {
 
-  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  const { account_id, account_firstname, account_lastname, account_email, account_password = null } = req.body
   let errors = []
   errors = validationResult(req)
 

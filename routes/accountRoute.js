@@ -14,6 +14,7 @@ router.get("/login",                          utilities.handleErrors(accountCont
 router.get("/register",                       utilities.handleErrors(accountController.buildRegister))
 router.get("/",         utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
 router.get("/update",   utilities.checkLogin, utilities.handleErrors(accountController.buildAccountEdit))
+router.get("/logout",   utilities.logout)
 
 router.post(
     "/register",
