@@ -254,11 +254,18 @@ margin-top: -15px;
  form input:focus:invalid { background-color: var(--form-invalid-color); }
  form input:required:valid { background-color: var(--form-valid-color); } 
       input {display: block;}
+      input[type = "range"] {
+        width: 75%;
+        height: 8px; 
+        border-radius: 5px;
+      }
 
 #noAcount {font-size: var(--font-size-p-alt);}
 #classInput{ margin-top: 23px;}
 #classInput:required:invalid{background-color: var(--form-invalid-color);}
 #classInput:focus:invalid{background-color: var(--form-invalid-color);}
+
+
 
 @media only screen and (max-width: 777px) {
 

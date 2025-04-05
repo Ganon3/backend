@@ -1,5 +1,6 @@
 const { json } = require("express")
 const invModel = require("../models/inventory-model")
+const accModel = require("../models/account-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
@@ -112,6 +113,30 @@ const Util = {}
     </section>`
 }
 
+/** 
+ * THIS gets all comments or a count number of comments 
+ * @param {number|null} count IF count is null get all ELSE get count
+ * @returns an issue IF comments < count ELSE return HTML ul li list
+ */
+ Util.buildCommentsUL = async function (count = null) {
+  let data = await accModel.getCommentsByRateing()
+  let lis = "<h2>DMC Delorean Reviews</h2>"
+
+  if (count === null) 
+  {
+    data.rows.forEach((commentData) => 
+    {lis += `<li> "${commentData.comment_text}" (${commentData.comment_rate}/5) </li>`})
+  }
+  else
+  {
+    if ((data.rows).length < count){return `<ul class="CommentUL"> <li> there are not enuph commnets to0 make ${count} lis </li> </ul>`}
+    for( let i=0 ; i<count ; i++ ) 
+    {lis += `<li> "${data.rows[i].comment_text}" (${data.rows[i].comment_rate}/5) </li>`}
+  }
+  
+  let ul = `<ul class="CommentUL"> ${lis} </ul>`
+  return ul  
+}
 
 
 

@@ -107,4 +107,13 @@ async function accountUpdate (
   { return new Error("No matching email found") }
 }
 
-module.exports = { registerAccount , getAccountByEmail, accountUpdate, getAccountInfoByID}
+/**
+ * THIS gets all comments by a DESC rating - from 5 to 1
+ * @returns data that needs to be .row.forEach
+ */
+ async function 
+ getCommentsByRateing() {
+  return await pool.query("SELECT * FROM public.comment ORDER BY comment_rate DESC")
+}
+
+module.exports = { registerAccount , getAccountByEmail, accountUpdate, getAccountInfoByID, getCommentsByRateing}

@@ -42,10 +42,27 @@
         </fieldset>
         </form>
 
-        <% //console.log(locals.accountData)  %>
+        <form action="/account/make-comment" method="post">
+        <fieldset>
+            <legend> Make a Comment </legend>
+            <p>A RATEING IS REQUIRED</p>
+            <label>  New Comment <textarea                           name="comment_text" rows="13" cols="50" required></textarea></label>  <!--https://stackoverflow.com/questions/26612700/ticks-for-type-range-html-input-->
+            <label>  Rate Us     <input id="rateingInp" type="range" name="comment_rate" min="1"   max="5"   step="1"  list="steplist" oninput="openbutton()" required>      
+               <datalist id="steplist"> <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></datalist> 
+               <p> Your rateing: <span id="rateingNUM"></span></p>
+              </label> 
+            <label>  <button id="commentButten" type="submit" disabled> Make Comment </button></label>
+        </fieldset>
+        </form>
 
+        <% //console.log(locals.accountData)  %>
         <script type="text/javascript">
             
+            function openbutton() { document.getElementById("commentButten").removeAttribute("disabled") }
+
+            document.getElementById("rateingInp").addEventListener
+            ("change", () => {document.getElementById("rateingNUM").textContent = document.getElementById("rateingInp").value} )
+
             function showHidePassword() {
     
                 const passInput = document.getElementById("password");
