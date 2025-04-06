@@ -120,7 +120,7 @@ const Util = {}
  */
  Util.buildCommentsUL = async function (count = null) {
   let data = await accModel.getCommentsByRateing()
-  let lis = "<h2>DMC Delorean Reviews</h2>"
+  let lis = "<h2>DMC Delorean <a id='reviewlink' href='/review'> Reviews </a></h2>"
 
   if (count === null) 
   {

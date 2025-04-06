@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS public.comment                                     --
 	  ON UPDATE CASCADE
 	  ON DELETE NO ACTION
 );
+ALTER TABLE public.comment ALTER COLUMN comment_rate
+SET NOT NULL
 
 
 

@@ -1,0 +1,51 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+    <%- messages() %>
+
+    <% if (errors) { %>
+      <ul class="notice">
+     <% errors.array().forEach(error => { %>
+       <li><%= error.msg %></li>
+    <%  }) %>
+     </ul>
+    <% } %>
+
+    <section class="formSection" id="update_account">
+    <form action="review/reviews.ejs" method="post">
+        <% //console.log(locals.accountData) %>
+        <% if (locals.loggedin != 1) { %>
+            <p>Login to leave a review</p>
+        <% } else { %>
+            <fieldset>
+                <legend> Make a Comment </legend>
+                <p>A RATEING IS REQUIRED</p>
+                                                    <input type="hidden" name="account_id"                         value="<%= locals.accountData.account_id ? accountData.account_id : ''%>" >
+                <label>  New Comment                           <textarea name="comment_text" rows="13" cols="50" required><%= locals.comment_text ? comment_text: ""%></textarea></label>  <!--https://stackoverflow.com/questions/26612700/ticks-for-type-range-html-input-->
+                <label>  Rate Us     <input id="rateingInp" type="range" name="comment_rate" min="1"   max="5"   step="1"  list="steplist" oninput="openbutton()" required value="<%= locals.comment_rate ? comment_rate : "" %>">      
+                        <datalist id="steplist"> <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></datalist> 
+                        <p> Your rateing: <span id="rateingNUM"></span></p>
+                        </label> 
+                <label>  <button id="commentButten" type="submit" disabled> Make Comment </button></label>
+            </fieldset>
+        <% } %>
+    </form>
+
+    <form>
+    <legend> ALL Commnets</legend>
+        <%- comments %>
+    </form>
+
+        
+        <script type="text/javascript">
+            
+            function openbutton() { document.getElementById("commentButten").removeAttribute("disabled") }
+
+            document.getElementById("rateingInp").addEventListener
+            ("change", () => {document.getElementById("rateingNUM").textContent = document.getElementById("rateingInp").value} )
+
+        </script>
+    </section>
